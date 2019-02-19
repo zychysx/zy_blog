@@ -1,0 +1,34 @@
+.top_num{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+
+.list_num{
+    font-size: 40px;
+    color: #aeaeae;
+    height: 173px;
+    line-height: 173px;
+}
+
+.list_con h4{
+    color: #fff;
+    background: #333
+}
+
+.content{
+    height: 60px;
+    line-height: 60px;
+}
+
+.list_line{
+    border-bottom: black solid 1px;
+}
+
+.like_btn_black{
+    color: black;
+}
+
+.like_btn_red{
+    color: red;
+}

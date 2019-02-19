@@ -1,0 +1,171 @@
+{% extends 'index.html' %}
+{% load staticfiles %}
+{% block children_css %}
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+<link rel="stylesheet" href="//apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css">
+<link href="{% static 'css/article_list.css' %}" rel="stylesheet">
+<link href="{% static 'css/zy_ckeditor.css' %}" rel="stylesheet">
+<link href="{% static 'css/paging.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block all %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12"><h2 style="text-align: center">{{ obj.article_title }}</h2></div>
+    </div>
+    <div style="display:none" id = 'aid'>{{obj.id}}</div>
+    <div class="row">
+        <div class="col-md-4"><p>发布时间：{{ obj.cerate_time }}</p></div>
+        <div class="col-md-4">
+            {% if obj.article_type == 'D'%}
+            <span>类别：美食</span>&nbsp;&nbsp;
+            {% elif obj.article_type == 'W'%}
+            <span>类别：网站搭建</span>&nbsp;&nbsp;
+            {% elif obj.article_type == 'T'%}
+            <span>类别：游记</span>&nbsp;&nbsp;
+            {% elif obj.article_type == 'P'%}
+            <span>类别：Python</span>&nbsp;&nbsp;
+            {% elif obj.article_type == 'DJ'%}
+            <span>类别：Django</span>&nbsp;&nbsp;
+            {% elif obj.article_type == 'TR'%}
+            <span>类别：琐事</span>&nbsp;&nbsp;
+            {% else %}
+            <span>类别：未识别</span>&nbsp;&nbsp;
+            {% endif %}
+        </div>
+        <div class="col-md-4">
+            {% if obj.private %}
+            <span>是否保密：是</span>&nbsp;&nbsp;
+            {% else %}
+            <span>是否保密：否</span>&nbsp;&nbsp;
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <p>点击数：{{ obj.read_num }}</p>
+        </div>
+        <div class="col-md-4">
+            {% if comment_count %}
+            <p>评论：{{ obj.comment_count }}</p>&nbsp;
+            {% else %}
+            <p>评论：{{ obj.comment_count }}</p>&nbsp;&nbsp;
+            {% endif %}
+        </div>
+        <div class="col-md-4">
+            {% if like_status %}
+            <button type="button" class="btn btn-link btn-sm like_btn_red" id='like_btn'><span class="fas fa-thumbs-up">&nbsp;已赞&nbsp;{{ obj.lick_count }}</span>&nbsp;</button>
+            {% else %}
+            <button type="button" class="btn btn-link btn-sm like_btn_black" id='like_btn'><span class="fas fa-thumbs-up">&nbsp;赞&nbsp;{{ obj.lick_count }}</span>&nbsp;</button>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12" style="border-bottom: 1px solid black"></div>
+    </div>
+
+    <div class="row">
+        <div style="margin: 4em">
+        {{ obj.content | safe }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12" style="border-bottom: 1px solid black"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div id="read_num" style="min-width:200px;height:300px"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12" style="border-bottom: 1px solid black"></div>
+    </div>
+    <div class="row"  style="margin-top: 10px">
+        {% if request.session.is_login %}
+        <div class="col-md-12">
+            <div>
+                <h3>提交评论</h3>
+                <form action="" method="post" id="arcticle_comment">
+                    {% csrf_token %}
+                    <label>欢迎评论,{{ request.session.user_name }}</label>
+                    {% for field in comment_form %}
+                    {{ field }}
+                    {% endfor %}
+                    <input type="submit" class="btn btn-default" value="提交" style="float: right" id="comment_sub_btn">
+                </form>
+            </div>
+        </div>
+        {% else %}
+        <span>您尚未登录,登录后方可评论,请
+            <button type="button" class="btn btn-light"><a href="/blog_user/login_page.html">登录</a></button>
+            或
+            <button type="button" class="btn btn-light"><a href="/blog_user/register.html">注册</a></button>
+        </span>
+        {% endif %}
+    </div>
+    <div class="row" style="margin-top: 20px">
+        <h3>评论列表</h3>
+        <div class="col-md-12" style="border-bottom: 1px solid black"></div>
+        <div style="margin-top: 20px">
+            {% if comment_list %}
+                {% for i in comment_list %}
+                <div>
+                    <p>{{ i.user }}（{{ i.comment_time }}）:</p>
+                    <p>{{ i.text | safe}}</p>
+                    <p style="border-bottom: black dashed 1px "></p>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div>
+                    <h4>此文章没有评论</h4>
+                    <p style="border-bottom: black dashed 1px "></p>
+                </div>
+
+            {% endif %}
+        </div>
+    </div>
+    {% if comment_list %}
+    <div class="row">
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+        <ul class="pagination">
+          {% if has_pre %}
+            <li class="page-item"><a class="page-link paging" href="/blog_article/article/{{ aid }}/{{ page_num | add:-1 }}.html">上一页</a></li>
+          {% endif %}
+
+          {% for i in page_range %}
+            {% if i == page_num %}
+              <li class="page-item"><a class="page-link paging_d">{{ i }}</a></li>
+            {% else %}
+              <li class="page-item"><a class="page-link paging" href="/blog_article/article/{{ aid }}/{{ i }}.html">{{ i }}</a></li>
+            {% endif %}
+          {% endfor %}
+
+          {% if has_next %}
+            <li class="page-item"><a class="page-link paging" href="/blog_article/article/{{aid}}/{{ page_num | add:1 }}.html">下一页</a></li>
+          {% endif %}
+          <li class="page-item"><a class="page-link paging" >共{{ all_page_num }}页/共{{ article_num }}篇</a></li></li>
+            <li>
+                <div class="input-group">
+                    <div style="display:none;" id="all_page_num">{{ all_page_num }}</div>
+                  <input type="text" size="2" class="form-control" id="article_go_input">
+                  <button type="button" class="btn btn-light paging" id="article_go_btn">Go</button>
+                </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block children_js %}
+<script src="{% static 'js/go_form.js' %}"></script>
+<script src="{% static 'js/read_num.js' %}"></script>
+<script src="{% static 'js/likes.js' %}"></script>
+<script src="{% static 'js/comment_sub.js' %}"></script>
+<script src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
+<script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+{% endblock %}

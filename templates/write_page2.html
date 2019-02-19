@@ -1,0 +1,69 @@
+{% extends 'index.html' %}
+{% load staticfiles %}
+{% block children_css %}
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+<link rel="stylesheet" href="//apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css">
+{% endblock %}
+
+{% block all %}
+<div class="container" style="margin-top: 100px">
+        <div class="row">
+            <div class="col-xs-12 col-lg-12 col-md-12 col-sm-12">
+                <form method="post" action="/blog_article/sub_article/">
+                    {% csrf_token %}
+                    <!--title-->
+                    <div class="input-group mb-3 input-group-lg">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Title</span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="" name="title" id="title">
+                    </div>
+                    <!--body-->
+                    <textarea id="content" class="ckeditor" name="content" style="height: 800px;"></textarea>
+                    <!--xinxi-->
+                    <div style="width: 20%;float: left;">
+                        <div class="form-group">
+                          <label>类别:</label>
+                          <select class="form-control" name="type">
+                            <option value='D'>美食</option>
+                            <option value='W'>搭建</option>
+                            <option value='T'>游记</option>
+                            <option value='TR'>琐事</option>
+                          </select>
+                        </div>
+                    </div>
+                    <div style="width: 20%;float: left;margin-left: 5%">
+                        <div class="form-group">
+                          <label>是否:</label>
+                          <select class="form-control" name="private">
+                            <option value='0'>否</option>
+                            <option value='1'>是</option>
+                          </select>
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <br>
+                    <div style="float: right;">
+                        <button type="submit" class="btn btn-outline-success">发布</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        CKEDITOR.replace('content', {
+            filebrowserUploadUrl: '/ckupload/',
+        });
+
+        CKEDITOR.replace('txtEditMsg', { height: '500px', });
+    </script>
+{% endblock %}
+
+{% block children_js %}
+<script src="//cdn.ckeditor.com/4.7.1/full/ckeditor.js"></script>
+<!--<script type =“text  javascript” src =“{％ static 'ckeditor/ckeditor-init.js' ％}"> <script>-->
+<script type =“text  javascript” src ="{% static 'ckeditor/ckeditor/ckeditor.js' %}"> <script>
+<script src="{％ static 'ckeditor/ckeditor-init.js' ％}"></script>
+{% endblock %}

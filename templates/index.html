@@ -1,0 +1,273 @@
+<!doctype html>
+<html>
+<head>
+{% load staticfiles %}
+{% block head %}
+<meta charset="utf-8">
+<title>张老三的山水画卷</title>
+<meta name="keywords" content="个人博客模板古典系列之――江南墨卷" />
+<meta name="description" content="个人博客模板古典系列之――江南墨卷" />
+{% endblock %}
+{% block children_css %}
+{% endblock %}
+<!--<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
+<!--<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">-->
+<!--<link rel="stylesheet" href="//apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css">-->
+<link href="{% static 'css/base.css' %}" rel="stylesheet">
+<link href="{% static 'css/index.css' %}" rel="stylesheet">
+<link href="{% static 'css/m.css' %}" rel="stylesheet">
+<!--[if lt IE 9]>
+<script src="js/modernizr.js"></script>
+<![endif]-->
+</head>
+<body>
+<script>
+window.onload = function ()
+{
+	var oH2 = document.getElementsByTagName("h2")[0];
+	var oUl = document.getElementsByTagName("ul")[0];
+	oH2.onclick = function ()
+	{
+		var style = oUl.style;
+		style.display = style.display == "block" ? "none" : "block";
+		oH2.className = style.display == "block" ? "open" : ""
+	}
+}
+</script>
+<div id="wrapper">
+  <header>
+    <div class="headtop"></div>
+    <div class="contenttop">
+      <div class="logo f_l">个人博客</div>
+      <div class="search f_r">
+        <form action="/e/search/index.php" method="post" name="searchform" id="searchform">
+          <input name="keyboard" id="keyboard" class="input_text" value="请输入关键字" style="color: rgb(153, 153, 153);" onfocus="if(value=='请输入关键字'){this.style.color='#000';value=''}" onblur="if(value==''){this.style.color='#999';value='请输入关键字'}" type="text">
+          <input name="show" value="title" type="hidden">
+          <input name="tempid" value="1" type="hidden">
+          <input name="tbname" value="news" type="hidden">
+          <input name="Submit" class="input_submit" value="搜索" type="submit">
+        </form>
+      </div>
+      <div class="blank"></div>
+      
+      
+      <div id="mnav">
+    <h2><span class="navicon"></span></h2>
+    <ul>
+      <li><a href="/">网站首页</a></li>
+      <li><a href="/">{{ request.session.n_name }}</a>
+         <ul>
+           {% if request.session.write_key or request.session.super_key %}
+           <li><a href="/blog_article/write_page.html">Write</a></li>
+           {% endif %}
+           <li><a href="/blog_user/logout/">注销</a></li>
+         </ul>
+        </li>
+      <li><a href="/blog_article/article_list/ALL/1.html">博客分类</a>
+            <ul>
+         <li><a href="/blog_article/article_list/W/1.html">网站搭建</a></li>
+                <li><a href="/blog_article/article_list/P/1.html">Python</a></li>
+                <li><a href="/blog_article/article_list/DJ/1.html">Django</a></li>
+                <li><a href="/blog_article/article_list/D/1.html">美食</a></li>
+                <li><a href="/blog_article/article_list/T/1.html">游记</a></li>
+                <li><a href="/blog_article/article_list/TR/1.html">琐事</a></li>
+          </ul></li>
+      <!--<li><a href="/">慢生活</a>-->
+            <!--<ul>-->
+         <!--<li><a href="/">关于我</a></li>-->
+         <!--<li><a href="/">关于我</a></li>-->
+         <!--<li><a href="/">关于我</a></li>-->
+          <!--</ul>-->
+      <!--</li>-->
+      <li><a href="/blog_article/bbs/1.html">留言</a></li>
+    </ul>
+  </div>
+
+      
+      
+      
+      
+      
+      <nav>
+        <div  class="navigation">
+          <ul class="menu">
+            <li><a href="/">网站首页</a></li>
+            <li><a href="/">关于我</a>
+              <ul>
+                <li><a href="/">个人简介</a></li>
+                <li><a href="/">个人相册</a></li>
+              </ul>
+            </li>
+            <li><a href="/blog_article/article_list/ALL/1.html">我的日记</a>
+              <ul>
+                <li><a href="/blog_article/article_list/W/1.html">网站搭建</a></li>
+                <li><a href="/blog_article/article_list/P/1.html">Python</a></li>
+                <li><a href="/blog_article/article_list/DJ/1.html">Django</a></li>
+                <li><a href="/blog_article/article_list/D/1.html">美食</a></li>
+                <li><a href="/blog_article/article_list/T/1.html">游记</a></li>
+                <li><a href="/blog_article/article_list/TR/1.html">琐事</a></li>
+              </ul>
+            </li>
+            <li><a href="/blog_article/bbs/1.html">给我留言</a> </li>
+            {% if request.session.n_name %}
+            <li>
+              <span class="top_btn">{{ request.session.n_name }}</span>
+              <ul>
+                {% if request.session.write_key or request.session.super_key %}
+                <li><a href="/blog_article/write_page.html">Write</a></li>
+                {% endif %}
+                <li><a href="/blog_user/logout/">注销</a></li>
+              </ul>
+            </li>
+            {% else %}
+            <li>
+              <button class="top_btn" type="button"><a href="/blog_user/login_page.html">登录</a></button>
+                /
+              <button class="top_btn" type="button"><a href="/blog_user/register.html">注册</a></button>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </header>
+  <div class="jztop"></div>
+  {% block all %}
+  <div class="container">
+    {% block blog_f_l %}
+    <div class="bloglist f_l">
+     <ul>
+     {% for i in obj_list %}
+     <!--<li>-->
+        <!--<h3 class="blogtitle"><span><a href="/jstt/css3/" title="css3" target="_blank" class="classname">个人博客</a></span><a href="/blog_article/article/{{ i.id }}.html" target="_blank">{{ i.article_title }}</a></h3>-->
+        <!--<div class="bloginfo"><span class="blogpic"><a href="/jstt/css3/2018-03-26/812.html" title="帝国cms 首页或者列表无图，不使用默认图片的方法"><img src="images/01.jpg" alt="帝国cms 首页或者列表无图，不使用默认图片的方法"></a></span>-->
+          <!--<p>{{ i.content | safe | truncatechars:50 }}</p>-->
+        <!--</div>-->
+        <!--<div class="autor"><span class="lm f_l"></span><span class="dtime f_l">{{ i.cerate_time }}</span><span class="viewnum f_l">浏览（<a href="/">1429</a>）</span><span class="f_r"><a href="/blog_article/article/{{ i.id }}.html" class="more">阅读原文&gt;&gt;</a></span></div>-->
+      <!--</li>-->
+       <li>
+        <h3 class="blogtitle"><span><a title="" target="_blank" class="classname">个人博客</a></span><a href="/blog_article/article/{{ i.id }}/1.html" target="_blank">{{ i.article_title }}</a></h3>
+        <div class="bloginfo">
+          <p>{{ i.content | safe | truncatechars:50 }}</p>
+        </div>
+        <div class="autor">
+          <span class="lm f_l"></span><span class="dtime f_l">{{ i.create_time }}</span>
+          {% if i.read_num  %}
+            <span class="viewnum f_l">浏览（<a href="/">{{ i.read_num }}</a>）</span>
+          {% else %}
+            <span class="viewnum f_l">浏览（<a href="/">0</a>）</span>
+          {% endif %}
+
+          {% if i.read_num  %}
+            <span class="viewnum f_l">评论（<a href="/">{{ i.comment_count }}</a>）</span>
+          {% else %}
+            <span class="viewnum f_l">评论（<a href="/">0</a>{{ i.comment_count }}</span>
+          {% endif %}
+
+          <span class="fas fa-thumbs-up f_l">赞:{{ i.lick_count }}</span>
+          <span class="f_r"><a href="/blog_article/article/{{ i.id }}/1.html" class="more">阅读原文&gt;&gt;</a></span>
+        </div>
+      </li>
+     {% endfor %}
+    </ul>
+    </div>
+    {% endblock %}
+    {% block blog_f_r %}
+    <div class="r_box f_r">
+      <div class="tit01">
+        <h3 class="tit">关注我</h3>
+        <div class="gzwm">
+          <ul>
+            <li><a class="email" href="/" target="_blank" title="137********">我的电话</a></li>
+            <li><a class="qq" href="/" target="_blank" title="zychysx@163.com">我的邮箱</a></li>
+            <li><a class="tel" href="/" target="_blank" title="6**6**1**">我的QQ</a></li>
+            <li><a class="prize" href="/" title="想啥呢，不可能有">个人奖项</a></li>
+          </ul>
+        </div>
+      </div>
+      <!--tit01 end-->
+      
+      <div class="tuwen">
+        <h3 class="tit">图文推荐</h3>
+        <ul>
+          <li><a href="/"><i><img src="{% static 'images/01.jpg' %}"></i><b>预留</b></a>
+            <p><span class="tulanmu"><a href="/">预留</a></span><span class="tutime">预留</span></p>
+          </li>
+          <!--<li><a href="/"><i><img src="images/02.jpg"></i><b>教你怎样用欠费手机拨打电话</b></a>-->
+            <!--<p><span class="tulanmu"><a href="/">手机配件</a></span><span class="tutime">2015-02-15</span></p>-->
+          <!--</li>-->
+ <!---->
+          <!--<li><a href="/"><i><img src="images/06.jpg"></i><b>住在手机里的朋友</b></a>-->
+            <!--<p><span class="tulanmu"><a href="/">手机配件</a></span><span class="tutime">2015-02-15</span></p>-->
+          <!--</li>-->
+          <!--<li><a href="/"><i><img src="images/04.jpg"></i><b>教你怎样用欠费手机拨打电话</b></a>-->
+            <!--<p><span class="tulanmu"><a href="/">手机配件</a></span><span class="tutime">2015-02-15</span></p>-->
+          <!--</li>-->
+          <!--<li><a href="/"><i><img src="images/02.jpg"></i><b>教你怎样用欠费手机拨打电话</b></a>-->
+            <!--<p><span class="tulanmu"><a href="/">手机配件</a></span><span class="tutime">2015-02-15</span></p>-->
+          <!--</li>-->
+         
+        </ul>
+      </div>
+      <div class="ph">
+        <h3 class="tit">点击排行</h3>
+        <ul class="rank">
+          <li><a href="/" title="预留" target="_blank">预留</a></li>
+          <!--<li><a href="/news/s/2016-05-20/751.html" title="IP要突破2000+了" target="_blank">IP要突破2000+了</a></li>-->
+          <!--<li><a href="/jstt/web/2015-07-03/749.html" title="帝国cms首页、自定义页面如何实现分页" target="_blank">帝国cms首页、自定义页面如何实现分页</a></li>-->
+          <!--<li><a href="/jstt/web/2015-02-25/745.html" title="【已评选】给我模板PSD源文件，我给你设计HTML！" target="_blank">【已评选】给我模板PSD源文件，我给你设计HTML！</a></li>-->
+          <!--<li><a href="/jstt/bj/2015-02-14/744.html" title="【郑重申明】本站只提供静态模板下载！" target="_blank">【郑重申明】本站只提供静态模板下载！</a></li>-->
+          <!--<li><a href="/news/s/2015-01-23/741.html" title="【孕期日记】生活本该如此" target="_blank">【孕期日记】生活本该如此</a></li>-->
+          <!--<li><a href="/jstt/bj/2015-01-09/740.html" title="【匆匆那些年】总结个人博客经历的这四年…" target="_blank">【匆匆那些年】总结个人博客经历的这四年…</a></li>-->
+          <!--<li><a href="/jstt/web/2015-01-01/739.html" title=" 2014年度优秀个人博客排名公布" target="_blank"> 2014年度优秀个人博客排名公布</a></li>-->
+          <!--<li><a href="/jstt/web/2014-12-18/736.html" title="2014年度优秀个人博客评选活动" target="_blank">2014年度优秀个人博客评选活动</a></li>-->
+          <!--<li><a href="/jstt/css3/2014-12-09/734.html" title="使用CSS3制作文字、图片倒影" target="_blank">使用CSS3制作文字、图片倒影</a></li>-->
+          <!--<li><a href="/jstt/css3/2014-11-18/733.html" title="【分享】css3侧边栏导航不同方向划出效果" target="_blank">【分享】css3侧边栏导航不同方向划出效果</a></li>-->
+          <!--<li><a href="/jstt/bj/2014-11-06/732.html" title="分享我的个人博客访问量如何做到IP从10到600的(图文)" target="_blank">分享我的个人博客访问量如何做到IP从10到600的(图文)</a></li>-->
+        </ul>
+      </div>
+      <div class="ad">
+      <div>
+        <div id="all_read_num" style="min-width:200px;height:400px"></div>
+      </div>
+        <!--<img src="images/03.jpg"> -->
+      </div>
+    </div>
+    {% endblock %}
+  </div>
+  <!-- container代码 结束 -->
+  {% endblock %}
+  <div class="jzend"></div>
+  <footer>
+    <div class="footer">
+      <div class="f_l">
+        <p>此网站为练习Django所建，若有同道中人给予建议请发邮件至：zychysx@163.com或至<a href="/blog_article/bbs.html">留言页面</a></p>
+        <p>备案号：京ICP备18011252号-1</p>
+      </div>
+      <div class="f_r textr">
+        <p>此网站的模版来自大牛的博客：<a href="http://www.yangqq.com">杨青个人博客</a></p>
+      </div>
+    </div>
+  </footer>
+</div>
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<!--[if lt IE 9]>
+<script src="js/modernizr.js"></script>
+<![endif]-->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+<script src="//apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+<script src="https://cdn.bootcss.com/vue/2.4.2/vue.min.js"></script>
+<script src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+<script src="{% static 'js/select.js' %}"></script>
+
+{% block children_js %}
+<script src="{% static 'js/all_read_num.js' %}"></script>
+{% endblock %}
+</body>
+</html>

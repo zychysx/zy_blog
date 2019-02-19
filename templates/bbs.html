@@ -1,0 +1,103 @@
+{% extends 'index.html' %}
+{% load staticfiles %}
+{% block children_css %}
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+<link rel="stylesheet" href="//apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css">
+<link href="{% static 'css/zy_ckeditor.css' %}" rel="stylesheet">
+<link href="{% static 'css/paging.css' %}" rel="stylesheet">
+{% endblock %}
+{% block all %}
+<div class="container">
+    <div class="row">
+        <div style="margin:0 auto">
+            <h2 style="font-family: 'Kaiti TC'">张老三的留言薄</h2>
+            <p></p>
+        </div>
+    </div>
+    <div style="border-bottom: black solid 1px "></div>
+    <div class="row">
+        {% if bbs_list %}
+        <div class="col-md-12" style="margin-top: 20px">
+            {% for i in bbs_list %}
+            <div>
+                <p>{{ i.user }}（{{ i.create_time }}）:</p>
+                <p>{{ i.text | safe }}</p>
+            </div>
+            <div style="border-bottom: black dashed 1px;margin-bottom: 1em "></div>
+            {% endfor %}
+        </div>
+        {% else %}
+       <div class="col-md-12" style="margin-top: 20px">
+            <div>
+                <h3 style="font-family: 'Kaiti TC'">唉，还没有留言</h3>
+            </div>
+            <div style="border-bottom: black dashed 1px;margin-bottom: 1em "></div>
+        </div>
+        {% endif %}
+    </div>
+    {% if bbs_list %}
+    <div class="row">
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+        <ul class="pagination">
+          {% if has_pre %}
+            <li class="page-item"><a class="page-link paging" href="/blog_article/bbs/{{ page_num | add:-1 }}.html">上一页</a></li>
+          {% endif %}
+
+          {% for i in page_range %}
+            {% if i == page_num %}
+              <li class="page-item"><a class="page-link paging_d">{{ i }}</a></li>
+            {% else %}
+              <li class="page-item"><a class="page-link paging" href="/blog_article/bbs/{{ i }}.html">{{ i }}</a></li>
+            {% endif %}
+          {% endfor %}
+
+          {% if has_next %}
+            <li class="page-item"><a class="page-link paging" href="/blog_article/bbs/{{ page_num | add:1 }}.html">下一页</a></li>
+          {% endif %}
+            <li class="page-item"><a class="page-link paging" >共{{ all_page_num }}页/共{{ bbs_num }}篇</a></li></li>
+            <li>
+                <div class="input-group">
+                    <div style="display:none;" id="all_page_num">{{ all_page_num }}</div>
+                    <input type="text" size="2" class="form-control" name="bbs_go_input" id="bbs_go_input">
+                    <button type="button" class="btn btn-light paging" id="bbs_go_btn">Go</button>
+                </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+{% endif %}
+    {% if request.session.is_login %}
+    <div class="row" style="margin-top: 3em">
+        <div class="col-md-12">
+            <h3 style="font-family: 'Kaiti TC'">{{ request.session.n_name }},请您留言</h3>
+            <form action="/blog_article/bbs_sub/" method="post" id="bbs_form">
+                    {% csrf_token %}
+                    {% for field in bbs_input %}
+                    {{ field }}
+                    {% endfor %}
+                <input type="submit" class="btn btn-default" value="提交" style="float: right" id="comment_sub_btn">
+            </form>
+        </div>
+    </div   >
+    {% else %}
+     <div class="row" style="margin-top: 3em">
+        <div class="col-md-12">
+            <span>您尚未登录,登录后方可评论,请
+                <button type="button" class="btn btn-light"><a href="/blog_user/login_page.html">登录</a></button>
+                或
+                <button type="button" class="btn btn-light"><a href="/blog_user/register.html">注册</a></button>
+            </span>
+        </div>
+     </div>
+    {% endif %}
+</div>
+
+{% endblock %}
+{% block children_js %}
+<script src="{% static 'js/go_form.js' %}"></script>
+<script src="{% static 'js/comment_sub.js' %}"></script>
+<script src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
+<script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+{% endblock %}

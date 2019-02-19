@@ -1,0 +1,49 @@
+{% extends 'index.html' %}
+{% load staticfiles %}
+{% block children_css %}
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+<link rel="stylesheet" href="//apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css">
+{% endblock %}
+
+{% block all %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-2">
+            <form action="/blog_user/login/" method="post">
+                {% csrf_token %}
+                <div class="input-group mb-3 ">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">账&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp户</span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="请输入5-20个字符的用户名" name="user_name" id="login_name">
+                </div>
+                <div class="prompt"></div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">密&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp码</span>
+                    </div>
+                    <input type="password" class="form-control" placeholder="密码最少8位，最长20位" name="pass_word" id="pass_word">
+                </div>
+                <div class="prompt"></div>
+                <!--<div class="input-group mb-3">-->
+                    <!--<div class="input-group-prepend">-->
+                        <!--<span class="input-group-text">验&nbsp&nbsp证&nbsp&nbsp码</span>-->
+                    <!--</div>-->
+                    <!--<input type="text" class="form-control" placeholder="" name="check_num" id="check_num_input">-->
+                    <!--<button type="button" class="btn btn-primary" id="check_num">发送验证码</button>-->
+                <!--</div>-->
+                <div class="modal-footer">
+                    <!--<button type="button" class="btn btn-primary">清空</button>-->
+                    <!--<button type="submit" class="btn btn-primary" id="submit_btn">登录</button>-->
+                    <button type="button" class="btn btn-primary" id="submit_btn">登录</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block children_js %}
+<script src="{% static 'js/login.js' %}"></script>
+{% endblock %}

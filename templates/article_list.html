@@ -1,0 +1,92 @@
+{% extends 'index.html' %}
+{% load staticfiles %}
+{% block children_css %}
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+<link rel="stylesheet" href="//apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css">
+<link href="{% static 'css/article_list.css' %}" rel="stylesheet">
+<link href="{% static 'css/paging.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block all %}
+<div class="container">
+    <div class="row">
+      {% for i in obj_list %}
+        <div class="list_line list_num top_num col-md-2">三</div>
+        <div class="list_line list_con  top_num col-md-6">
+          <a  href="/blog_article/article/{{ i.id }}/1.html" target="_blank"><h4>{{ i.article_title }}</h4></a>
+          <span class="content">{{ i.content | safe | truncatechars:50 }}</span>
+          <div>
+            <span>{{ i.cerate_time }}</span>
+            {% if i.article_type == 'D'%}
+            <span>美食</span>&nbsp;&nbsp;
+            {% elif i.article_type == 'W'%}
+            <span>网站搭建</span>&nbsp;&nbsp;
+            {% elif i.article_type == 'T'%}
+            <span>游记</span>&nbsp;&nbsp;
+            {% elif i.article_type == 'P'%}
+            <span>Python</span>&nbsp;&nbsp;
+            {% elif i.article_type == 'DJ'%}
+            <span>Django</span>&nbsp;&nbsp;
+            {% else %}
+            <span>琐事</span>&nbsp;&nbsp;
+            {% endif %}
+            {% if i.read_num  %}
+            <spqan>浏览：{{ i.read_num }}</spqan>&nbsp;&nbsp;
+            {% else %}
+            <spqan>浏览：0</spqan>&nbsp;
+            {% endif %}
+
+            {% if i.comment_count  %}
+            <spqan>评论：{{ i.comment_count }}</spqan>&nbsp;&nbsp;
+            {% else %}
+            <spqan>评论：0</spqan>&nbsp;
+            {% endif %}
+            <span class="fas fa-thumbs-up">&nbsp;{{ i.lick_count }}</span>&nbsp;
+
+          </div>
+        </div>
+        <div class="list_jpg  top_num col-md-4" style="background: url({% static 'media/02.jpg' %}) no-repeat left top;"></div>
+      {% endfor %}
+    </div>
+</div>
+{% if obj_list %}
+<div class="container">
+    <div class="row">
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+        <ul class="pagination">
+          {% if has_pre %}
+            <li class="page-item"><a class="page-link paging" href="/blog_article/article_list/{{a_type}}/{{ page_num | add:-1 }}.html">上一页</a></li>
+          {% endif %}
+
+          {% for i in page_range %}
+            {% if i == page_num %}
+              <li class="page-item"><a class="page-link paging_d">{{ i }}</a></li>
+            {% else %}
+              <li class="page-item"><a class="page-link paging" href="/blog_article/article_list/{{ a_type }}/{{ i }}.html">{{ i }}</a></li>
+            {% endif %}
+          {% endfor %}
+
+          {% if has_next %}
+            <li class="page-item"><a class="page-link paging" href="/blog_article/article_list/{{a_type}}/{{ page_num | add:1 }}.html">下一页</a></li>
+          {% endif %}
+          <li class="page-item"><a class="page-link paging" >共{{ all_page_num }}页/共{{ article_num }}篇</a></li></li>
+            <li>
+                <div class="input-group">
+                  <div style="display:none;" id="a_type">{{ a_type }}</div>
+                  <div style="display:none;" id="all_page_num">{{ all_page_num }}</div>
+                  <input type="text" size="2" class="form-control" id="article_list_go_input">
+                  <button type="button" class="btn btn-light paging" id="article_list_go_btn">Go</button>
+                </div>
+            </li>
+        </ul>
+      </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block children_js %}
+<script src="{% static 'js/go_form.js' %}"></script>
+{% endblock %}
