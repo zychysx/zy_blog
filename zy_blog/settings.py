@@ -23,7 +23,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'z&xv!^zr@n@o6&ev7=vyh3jzkk7vb4pa#8p@3%i+!lhfz50tgg'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+#DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -82,23 +83,23 @@ WSGI_APPLICATION = 'zy_blog.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#    }
+#}
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'zy_blog',
-#         'USER':'root',
-#         'PASSWORD':'mysql',
-#         'HOST':'127.0.0.1',
-#         'PORT':'3306',
-#     }
-# }
+DATABASES = {
+     'default': {
+         'ENGINE': 'django.db.backends.mysql',
+         'NAME': 'zy_blog',
+         'USER':'root',
+         'PASSWORD':'mysql',
+         'HOST':'127.0.0.1',
+         'PORT':'3306',
+     }
+}
 
 
 # Password validation
@@ -159,7 +160,8 @@ from config.config import TOKEN_163
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.163.com'  # 新浪 smtp 服务器地址
-EMAIL_PORT = 25  # 端口号
+EMAIL_PORT = 465  # 端口号
+EMAIL_USE_SSL = True
 #发送邮件的邮箱
 EMAIL_HOST_USER = 'zychysx@163.com'
 #在邮箱中设置的客户端授权密码

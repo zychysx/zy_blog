@@ -123,6 +123,7 @@ def send_check_num(request):
     request.session[email] = ran_n
     send_num_thread = SendNumThread(email,str(ran_n))
     send_num_thread.start()
+    send_num_thread.join()
     data = {'res':'success'}
     return JsonResponse(data)
 
